@@ -8,7 +8,9 @@
 import UIKit
 import CoreML
 
-class ViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+class ViewController: UIViewController,
+                      UINavigationControllerDelegate,
+                      UIImagePickerControllerDelegate {
     
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var colorLabels: UILabel!
@@ -27,7 +29,6 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.addSubview(pointer)
         imagePicker.delegate = self
     }
@@ -47,6 +48,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         let pos = touch.location(in: imageView)
         let rgb = imageView.colorOfPoint(point: pos)
         
+        pointer.frame.origin = touch.location(in: view)
         colorViewer.backgroundColor = UIColor(red: CGFloat(rgb[0]) / 255,
                                               green: CGFloat(rgb[1]) / 255,
                                               blue: CGFloat(rgb[2]) / 255,
@@ -55,8 +57,6 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         colorPredictor.predict(vals: rgb) { [weak colorLabels] color in
             colorLabels?.text = color
         }
-        
-        pointer.frame.origin = touch.location(in: view)
         
     }
     

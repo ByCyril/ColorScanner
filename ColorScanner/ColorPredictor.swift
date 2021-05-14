@@ -25,14 +25,12 @@ final class ColorPredictor {
         guard let model = model else { return }
         guard let rgb = RGB(vals) else { return }
         
-        print(rgb)
         do {
             
             let input = ColorModelInput(dense_input: rgb)
             let pred = try model.prediction(input: input)
-            print(pred.Identity)
             let c = pred.Identity.maxIndex()
-            print(c)
+
             completion(colors[c])
             
         } catch {
